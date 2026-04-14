@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 실시간 탐지 및 입체적 대응 시스템</title>
+    <title>AI 실시간 탐지 및 정책 결정 프로세스</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -29,19 +29,16 @@
             overflow-x: auto;
         }
 
-        /* 차트 크기 밸런스 조정 */
         .mermaid svg {
             max-width: 100% !important;
             height: auto !important;
         }
         
-        /* 선 굵기: 적당히 강조된 3.5px */
         .mermaid .edgePath path {
             stroke: #334155 !important;
             stroke-width: 3.5px !important;
         }
         
-        /* 엣지 라벨: 가독성 확보 */
         .mermaid .edgeLabel {
             background-color: #ffffff !important;
             padding: 6px 10px !important;
@@ -51,12 +48,10 @@
             border-radius: 6px;
         }
         
-        /* 노드 스타일 */
         .mermaid .node rect, .mermaid .node polygon, .mermaid .node circle {
             stroke-width: 3px !important;
         }
         
-        /* 폰트 사이즈: 최적의 중간 지점 (24px) */
         .mermaid .label {
             font-weight: 800 !important;
             font-size: 24px !important; 
@@ -64,7 +59,6 @@
             color: #0f172a !important;
         }
 
-        /* 서브그래프 타이틀 */
         .mermaid .cluster label {
             font-size: 20px !important;
             font-weight: 800 !important;
@@ -77,11 +71,11 @@
         <!-- 상단 헤더 -->
         <header class="text-center space-y-4 mb-10">
             <div class="inline-block px-6 py-2 bg-indigo-100 text-indigo-700 text-sm font-black rounded-full mb-1 tracking-widest uppercase shadow-sm">
-                Fraud Defense Workflow v3.6
+                Policy & AI Intelligence Flow v3.8
             </div>
-            <h1 class="text-5xl font-black text-slate-900 tracking-tighter">AI 실시간 탐지 & 입체적 전략 대응</h1>
+            <h1 class="text-5xl font-black text-slate-900 tracking-tighter">AI 탐지 통합 및 기획 의사결정 프로세스</h1>
             <p class="text-slate-500 max-w-4xl mx-auto text-xl font-bold leading-relaxed">
-                실시간 대응 <span class="text-orange-600">Extra Track</span>과 정책 기반의 <span class="text-blue-600">Penalty Track</span> 최적화 모델
+                오류 수정 및 가시성 개선이 완료된 <span class="text-orange-600">기획자 의사결정(Planning Decision)</span> 중심 모델
             </p>
         </header>
 
@@ -94,67 +88,56 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </span>
-                    통합 대응 프로세스 맵
+                    통합 대응 및 의사결정 맵
                 </h2>
                 <div class="flex flex-wrap gap-6 px-8 py-4 bg-slate-50 rounded-[2rem] border-2 border-slate-200 shadow-inner">
-                    <div class="flex items-center gap-3"><span class="w-6 h-6 bg-orange-500 rounded-lg"></span> <span class="text-lg font-black text-slate-700">실시간 대응</span></div>
-                    <div class="flex items-center gap-3"><span class="w-6 h-6 bg-blue-500 rounded-lg"></span> <span class="text-lg font-black text-slate-700">벌점 제재</span></div>
+                    <div class="flex items-center gap-3"><span class="w-6 h-6 bg-orange-500 rounded-lg"></span> <span class="text-lg font-black text-slate-700">의사결정 필요</span></div>
+                    <div class="flex items-center gap-3"><span class="w-6 h-6 bg-blue-500 rounded-lg"></span> <span class="text-lg font-black text-slate-700">시스템 로직</span></div>
                     <div class="flex items-center gap-3"><span class="w-6 h-6 bg-emerald-500 rounded-lg"></span> <span class="text-lg font-black text-slate-700">AI 학습</span></div>
                 </div>
             </div>
 
             <div class="mermaid">
             graph TD
-                Start((<b>번개톡 발생</b>)) --> AIModel[✨ <b>AI 실시간 분석</b>]
+                Start(("<b>번개톡 발생</b>")) --> AIModel["✨ <b>AI 실시간 분석</b>"]
                 
-                AIModel -->|위험 감지| RealTimeBranch{<b>실시간 대응 결정</b>}
+                AIModel -->|위험 감지| DP1{"<b>[DP1] 실시간<br/>개입 임계치 결정</b>"}
                 
-                subgraph "Extra Track: 실시간 개입 (즉시 발동)"
-                    RealTimeBranch -->|Score 70↑| RealTimeWarning[<b>판/구매자 즉시 경고</b><br/>운영정책 위반 알림 전송]
-                    RealTimeWarning --> WarningText["<b>메시지:</b> '외부채널 유도가 감지되었습니다.<br/>운영정책 위반 시 제한될 수 있어요.'"]
-                    
-                    RealTimeBranch -->|Score 85↑| StrategicExtra{<b>전략적 제약 추가</b>}
-                    
-                    StrategicExtra --> SD[<b>검색/노출 하향</b><br/>Shadow Banning]
-                    StrategicExtra --> PH[<b>정산 유예 적용</b><br/>Payout Delay]
-                    StrategicExtra --> AD[<b>광고 집행 차단</b><br/>Ad Block]
-                    StrategicExtra --> GD[<b>등급 강제 강등</b><br/>Grade Demotion]
+                subgraph "Real-time Action: 실시간 개입"
+                    DP1 -->|임계치 충족| RealTimeWarning["<b>판/구매자 즉시 경고</b><br/>운영정책 위반 알림 전송"]
+                    RealTimeWarning --> DP2["<b>[DP2] 상황별<br/>경고 메시지 전략</b>"]
                 end
 
-                AIModel -.->|데이터 이관| PenaltyProcess[<b>벌점/제재 프로세스</b>]
+                AIModel -.->|데이터 이관| PenaltyProcess["<b>벌점/제재 프로세스</b>"]
 
                 subgraph "Penalty Track: 단계별 벌점제"
-                    PenaltyProcess --> Filter{<b>필터링/예외검토</b>}
-                    Filter -->|No Exception| Accumulate[<b>벌점 누적 -3점</b>]
-                    Accumulate --> Check{<b>-12점 도달?</b>}
-                    Check -->|Yes| Block[<b>판매 활동 제한</b>]
+                    PenaltyProcess --> Filter{"<b>필터링/예외검토</b>"}
+                    Filter -->|No Exception| DP3["<b>[DP3] AI 탐지 건<br/>벌점 가중치 결정</b>"]
+                    DP3 --> Accumulate["<b>벌점 누적 부여</b>"]
+                    Accumulate --> Check{"<b>제재 기준 도달?</b>"}
+                    Check -->|Yes| Block["<b>판매 활동 제한</b>"]
                 end
 
-                PenaltyProcess --> ExceptionCheck{<b>예외 1&2 해당?</b>}
-                ExceptionCheck -->|Yes| End((<b>제외</b>))
+                PenaltyProcess --> ExceptionCheck{"<b>예외 1&2 해당?</b>"}
+                ExceptionCheck -->|Yes| End(("<b>제외</b>"))
 
-                WarningText --> Notice[<b>통보 및 사후 관리</b>]
-                SD --> Notice
-                PH --> Notice
-                AD --> Notice
-                GD --> Notice
+                DP2 --> Notice["<b>통보 및 사후 관리</b>"]
                 Block --> Notice
-
-                Notice --> Appeal{<b>이의제기</b>}
+                Notice --> Appeal{"<b>이의제기</b>"}
                 
-                Appeal -->|승인| Recovery[<b>제한 해제</b><br/>+ ✨ AI 오탐 학습]
-                Appeal -->|반려| Maintain[<b>제재 유지</b><br/>+ ✨ AI 정탐 학습]
+                subgraph "Post-Process: 사후 관리 및 학습"
+                    Appeal --> DP4["<b>[DP4] 이의제기<br/>승인/반려 가이드</b>"]
+                    DP4 -->|승인| Recovery["<b>제한 해제</b><br/>+ ✨ AI 오탐 학습"]
+                    DP4 -->|반려| Maintain["<b>제재 유지</b><br/>+ ✨ AI 정탐 학습"]
+                end
 
                 %% 스타일 강화
                 style AIModel fill:#ecfdf5,stroke:#10b981,color:#064e3b,stroke-width:5px
-                style RealTimeBranch fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
-                style RealTimeWarning fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
-                style WarningText fill:#fffbeb,stroke:#f59e0b,color:#92400e,stroke-dasharray: 8 8
-                style StrategicExtra fill:#fefce8,stroke:#eab308,color:#854d0e,stroke-width:5px
-                style SD fill:#ffffff,stroke:#eab308,stroke-width:3px
-                style PH fill:#ffffff,stroke:#eab308,stroke-width:3px
-                style AD fill:#fff1f2,stroke:#f43f5e,stroke-width:3px
-                style GD fill:#f0f9ff,stroke:#0ea5e9,stroke-width:3px
+                style DP1 fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
+                style DP2 fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
+                style DP3 fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
+                style DP4 fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-width:5px
+                style RealTimeWarning fill:#ffffff,stroke:#f97316,color:#92400e,stroke-dasharray: 8 8
                 style PenaltyProcess fill:#eff6ff,stroke:#3b82f6,color:#1e40af,stroke-width:4px
                 style Block fill:#fef2f2,stroke:#ef4444,color:#7f1d1d,stroke-width:5px
                 style Recovery fill:#ecfdf5,stroke:#10b981,stroke-width:3px
@@ -163,15 +146,47 @@
             </div>
         </div>
 
+        <!-- 의사결정 상세 섹션 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+            <div class="bg-white p-8 rounded-3xl shadow-lg border border-orange-100">
+                <h3 class="text-2xl font-black text-orange-600 mb-4">📍 의사결정 포인트 상세 (Decision Points)</h3>
+                <ul class="space-y-4 text-slate-700 font-medium">
+                    <li><b class="text-orange-500">[DP1] 탐지 임계치:</b> 
+                        단순 정보성 대화와 실제 어뷰징 의도를 구분하는 AI Score 기준점 설정 (예: 70점 이상 시 즉시 경고 발동)
+                    </li>
+                    <li><b class="text-orange-500">[DP2] 메시지 전략:</b> 
+                        유저를 위축시키지 않으면서도 강력한 경고 효과를 줄 수 있는 상황별 톤앤매너 및 문구 확정
+                    </li>
+                    <li><b class="text-orange-500">[DP3] 벌점 가중치:</b> 
+                        기존 룰 탐지(-3점)와 AI 탐지 건의 점수 동일 적용 여부 및 위반 강도(심각성)에 따른 점수 차등화 정책 수립
+                    </li>
+                    <li><b class="text-orange-500">[DP4] 소명 가이드:</b> 
+                        억울한 판매자를 구제하기 위한 운영 조직의 정성적 검수 기준 및 이의제기 인용 시 AI 피드백 처리 프로세스
+                    </li>
+                </ul>
+            </div>
+            <div class="bg-white p-8 rounded-3xl shadow-lg border border-blue-100">
+                <h3 class="text-2xl font-black text-blue-600 mb-4">💡 기획자 최종 제언</h3>
+                <div class="text-slate-600 leading-relaxed font-medium space-y-4">
+                    <p>
+                        현재 Mermaid 11.14.0 환경에서 노드 간 연결 시 복수 노드 연결 구문(<code>&</code>)이 문법 오류를 일으킬 가능성이 있어, 모든 연결을 명시적으로 분리하여 안정성을 확보했습니다.
+                    </p>
+                    <p>
+                        비즈니스 관점에서는 **'실시간 경고(Real-time Warning)'**가 판매자에게 주는 심리적 압박이 벌점보다 훨씬 강력하므로, [DP2]에서 정의될 메시지의 문구 기획이 시스템 성공의 핵심이 될 것입니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- 푸터 정보 -->
         <footer class="text-center text-slate-400 py-12 border-t border-slate-200">
             <p class="text-xl font-black text-slate-500 uppercase">© 2026 번개장터 Fraud Prevention Unit</p>
-            <p class="text-sm font-bold tracking-widest mt-1 uppercase">Balanced Visibility Mode v3.6</p>
+            <p class="text-sm font-bold tracking-widest mt-1 uppercase">Decision-Focused Visibility Mode v3.8 (Fixed)</p>
         </footer>
     </div>
 
     <script>
-        // Mermaid 초기화 - 최적의 중간 폰트 크기(24px) 및 레이아웃 설정
+        // Mermaid 초기화 - 폰트 및 문법 호환성 최적화
         mermaid.initialize({ 
             startOnLoad: true, 
             theme: 'base',
@@ -184,7 +199,7 @@
                 lineColor: '#475569'
             },
             flowchart: {
-                useMaxWidth: true, // 화면에 적절히 맞춤
+                useMaxWidth: true, 
                 htmlLabels: true,
                 curve: 'basis',
                 padding: 60,
