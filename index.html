@@ -3,13 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 탐지 확장 활용 순서도 v2</title>
+<title>AI 탐지 확장 활용 순서도 v3</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f5f4f0; margin: 0; padding: 20px; }
-  h2 { font-size: 16px; font-weight: 600; color: #2c2c2a; margin: 0 0 4px; }
-  .subtitle { font-size: 12px; color: #888780; margin-bottom: 20px; }
-  svg { display: block; width: 100%; max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; box-sizing: border-box; }
-
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: #f5f4f0; margin: 0; padding: 20px; color: #2c2c2a;
+  }
+  h2 { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
+  .subtitle { font-size: 12px; color: #888780; margin-bottom: 16px; }
+  .page-wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  .svg-card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px; }
+  .svg-card svg { display: block; width: 100%; }
+  .panel { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px 24px; }
+  .panel-title { font-size: 13px; font-weight: 700; margin: 0 0 4px; }
+  .panel-sub { font-size: 11px; color: #888780; margin: 0 0 16px; }
+  .decision-grid { display: flex; flex-direction: column; gap: 12px; }
+  .di { display: flex; gap: 12px; align-items: flex-start; border: 1.5px dashed #C03E0A; border-radius: 8px; padding: 12px 14px; background: #FFF8F0; }
+  .di-badge { min-width: 24px; height: 24px; border-radius: 4px; background: #C03E0A; color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .di-title { font-size: 13px; font-weight: 600; margin: 0 0 4px; color: #3d3d3a; }
+  .di-desc { font-size: 12px; color: #5F5E5A; margin: 0; line-height: 1.7; }
+  .di-desc strong { color: #C03E0A; font-weight: 600; }
+  .backlog-panel { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px 24px; border-left: 4px solid #888780; }
+  .backlog-title { font-size: 13px; font-weight: 700; color: #5F5E5A; margin: 0 0 4px; }
+  .backlog-sub { font-size: 11px; color: #aaa; margin: 0 0 16px; }
+  .backlog-logic { display: flex; flex-direction: column; gap: 14px; }
+  .bl-step { display: flex; gap: 12px; align-items: flex-start; }
+  .bl-num { min-width: 24px; height: 24px; border-radius: 50%; background: #F1EFE8; border: 1.5px solid #888780; color: #444; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bl-title { font-size: 13px; font-weight: 600; margin: 0 0 4px; color: #3d3d3a; }
+  .bl-desc { font-size: 12px; color: #5F5E5A; margin: 0; line-height: 1.7; }
+  .bl-desc code { background: #F1EFE8; border-radius: 3px; padding: 1px 5px; font-size: 11px; font-family: monospace; }
+  .bl-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin-right: 4px; }
+  .tag-need { background: #FAEEDA; color: #633806; }
+  .tag-later { background: #F1EFE8; color: #444; }
+  .pipeline-strip { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 16px 24px; }
+  .pipeline-strip-title { font-size: 13px; font-weight: 700; margin: 0 0 12px; }
+  .pipeline-boxes { display: flex; gap: 0; align-items: center; }
+  .pb { flex: 1; background: #FAEEDA; border: 1px solid #BA7517; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .pb-title { font-size: 13px; font-weight: 600; color: #633806; margin: 0 0 2px; }
+  .pb-sub { font-size: 11px; color: #8a5010; margin: 0; }
+  .pb-arrow { width: 28px; text-align: center; flex-shrink: 0; font-size: 16px; color: #888780; }
   .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
   .c-purple text { fill: #3C3489; }
   .c-amber rect { fill: #FAEEDA; stroke: #BA7517; }
@@ -18,27 +51,28 @@
   .c-gray text { fill: #444441; }
   .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
   .c-teal text { fill: #085041; }
-
   .th { font-size: 13px; font-weight: 600; }
   .ts { font-size: 11px; font-weight: 400; fill: #5F5E5A; }
   .badge { font-size: 11px; font-weight: 700; fill: #BA7517; }
   .legend-label { font-size: 11px; fill: #5F5E5A; }
-  .decision-label { font-size: 10px; font-weight: 700; fill: #C03E0A; }
-  .section-head { font-size: 13px; font-weight: 700; }
+  .dt { font-size: 10px; font-weight: 700; fill: white; }
 </style>
 </head>
 <body>
-<h2>AI 탐지 데이터 확장 활용 — 개발 리뷰용 순서도 v2</h2>
-<p class="subtitle">① 채널 배너 · ③ 구매자 알림 즉시 실행 + 기존 페널티 로직 + ④ 키워드 파이프라인 | 🟠 = 의사결정 필요</p>
+<div class="page-wrap">
+<div>
+  <h2>AI 탐지 데이터 확장 활용 — 개발 리뷰용 순서도 v3</h2>
+  <p class="subtitle">① 채널 배너 · ③ 구매자 알림 즉시 실행 + 기존 페널티 로직 + ④ 키워드 파이프라인 &nbsp;|&nbsp; 주황 점선 = 의사결정 필요</p>
+</div>
 
-<svg viewBox="0 0 820 1390">
+<div class="svg-card">
+<svg viewBox="0 0 820 1060">
 <defs>
 <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
   <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </marker>
 </defs>
-
-<!-- ===== LEGEND ===== -->
+<!-- LEGEND -->
 <rect x="10" y="6" width="10" height="10" rx="2" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
 <text class="legend-label" x="24" y="15">AI 입력</text>
 <rect x="80" y="6" width="10" height="10" rx="2" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
@@ -47,319 +81,236 @@
 <text class="legend-label" x="174" y="15">판단/종료</text>
 <rect x="240" y="6" width="10" height="10" rx="2" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
 <text class="legend-label" x="254" y="15">조치</text>
-<rect x="340" y="6" width="10" height="10" rx="2" fill="none" stroke="#C03E0A" stroke-width="1.5" stroke-dasharray="4 2"/>
-<text class="legend-label" x="354" y="15" fill="#C03E0A">의사결정 필요</text>
-<text class="legend-label" x="450" y="15">④ = reason 수집 (페널티 무관)</text>
-
-
-<!-- ===== ①③ 즉시실행 구간 ===== -->
+<rect x="330" y="6" width="10" height="10" rx="2" fill="none" stroke="#C03E0A" stroke-width="1.5" stroke-dasharray="4 2"/>
+<text class="legend-label" x="344" y="15" fill="#C03E0A">의사결정 필요</text>
+<text class="legend-label" x="444" y="15">④ = reason 수집 (페널티 무관)</text>
+<!-- 즉시실행 구간 -->
 <rect x="365" y="18" width="440" height="152" rx="8" fill="none" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="5 3" opacity="0.8"/>
 <text x="374" y="31" font-size="11" font-weight="500" fill="#BA7517">즉시 실행 구간 (AI 탐지 즉시 · 조건 없음)</text>
-
-<g class="c-amber">
-  <rect x="374" y="36" width="420" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th" x="584" y="55" text-anchor="middle" dominant-baseline="central">① 채널 배너 즉시 삽입</text>
-  <text class="ts" x="584" y="73" text-anchor="middle" dominant-baseline="central">채널 상단 고정 배너 · 안전결제 유도 CTA 포함 · 발/구매자 공통</text>
-</g>
-<g class="c-amber">
-  <rect x="374" y="100" width="420" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th" x="584" y="119" text-anchor="middle" dominant-baseline="central">③ 구매자 보호 알림 발송</text>
-  <text class="ts" x="584" y="137" text-anchor="middle" dominant-baseline="central">구매자 전용 · 패턴 감지 안내 메시지 + 신고 버튼 포함</text>
-</g>
-
-<!-- ===== AI 탐지 플래그 수신 ===== -->
-<g class="c-purple">
-  <rect x="55" y="24" width="285" height="54" rx="8" stroke-width="0.8"/>
-  <text class="th" x="197" y="43" text-anchor="middle" dominant-baseline="central">AI 탐지 플래그(Y) 수신</text>
-  <text class="ts" x="197" y="63" text-anchor="middle" dominant-baseline="central">channel_id · reason · detected_at</text>
-</g>
-
-<!-- Fork to ①③ -->
+<g class="c-amber"><rect x="374" y="36" width="420" height="50" rx="8" stroke-width="0.5"/>
+<text class="th" x="584" y="55" text-anchor="middle" dominant-baseline="central">① 채널 배너 즉시 삽입</text>
+<text class="ts" x="584" y="73" text-anchor="middle" dominant-baseline="central">채널 상단 고정 · 안전결제 유도 CTA · 발/구매자 공통</text></g>
+<g class="c-amber"><rect x="374" y="100" width="420" height="50" rx="8" stroke-width="0.5"/>
+<text class="th" x="584" y="119" text-anchor="middle" dominant-baseline="central">③ 구매자 보호 알림 발송</text>
+<text class="ts" x="584" y="137" text-anchor="middle" dominant-baseline="central">구매자 전용 · 패턴 감지 안내 + 신고 버튼 포함</text></g>
+<!-- AI 탐지 플래그 -->
+<g class="c-purple"><rect x="55" y="24" width="285" height="54" rx="8" stroke-width="0.8"/>
+<text class="th" x="197" y="43" text-anchor="middle" dominant-baseline="central">AI 탐지 플래그(Y) 수신</text>
+<text class="ts" x="197" y="63" text-anchor="middle" dominant-baseline="central">channel_id · reason · detected_at</text></g>
 <path d="M340 51 L357 51 L357 61 L374 61" fill="none" stroke="#888780" stroke-width="1.2" marker-end="url(#arr)"/>
 <path d="M340 51 L357 51 L357 125 L374 125" fill="none" stroke="#888780" stroke-width="1.2" marker-end="url(#arr)"/>
 <line x1="197" y1="78" x2="197" y2="174" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 활성 주문번호 조회 [⚑A · B] ===== -->
-<g class="c-amber">
-  <rect x="55" y="174" width="285" height="54" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="193" text-anchor="middle" dominant-baseline="central">활성 주문번호 조회</text>
-  <text class="ts" x="197" y="211" text-anchor="middle" dominant-baseline="central">channel_id → 주문 매핑 (신규 단계)</text>
-</g>
-<!-- Decision overlay A+B -->
+<!-- 활성 주문번호 조회 [A·B] -->
+<g class="c-amber"><rect x="55" y="174" width="285" height="54" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="193" text-anchor="middle" dominant-baseline="central">활성 주문번호 조회</text>
+<text class="ts" x="197" y="211" text-anchor="middle" dominant-baseline="central">channel_id → 주문 매핑 (신규 단계)</text></g>
 <rect x="52" y="171" width="291" height="60" rx="9" fill="none" stroke="#C03E0A" stroke-width="1.8" stroke-dasharray="5 3"/>
-<text class="decision-label" x="337" y="183" text-anchor="end">⚑ A · B</text>
-
+<rect x="284" y="163" width="36" height="17" rx="4" fill="#C03E0A"/>
+<text class="dt" x="302" y="172" text-anchor="middle" dominant-baseline="central">A · B</text>
 <line x1="340" y1="201" x2="362" y2="201" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="197" font-size="11" fill="#5F5E5A">N</text>
-<g class="c-teal">
-  <rect x="364" y="183" width="260" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="494" y="203" text-anchor="middle" dominant-baseline="central" style="fill:#085041;font-weight:600">결제전: -3점 즉시 부여</text>
-</g>
+<g class="c-teal"><rect x="364" y="183" width="260" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="494" y="203" text-anchor="middle" dominant-baseline="central" style="fill:#085041;font-weight:600">결제전: -3점 즉시 부여</text></g>
 <line x1="197" y1="228" x2="197" y2="248" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="205" y="241" font-size="11" fill="#5F5E5A">Y</text>
-
-<!-- ===== 어뷰징 주체 확인 ===== -->
-<g class="c-amber">
-  <rect x="55" y="248" width="285" height="54" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="267" text-anchor="middle" dominant-baseline="central">어뷰징 주체 확인</text>
-  <text class="ts" x="197" y="285" text-anchor="middle" dominant-baseline="central">판매자 / 구매자 구분 (신규 단계)</text>
-</g>
+<!-- 어뷰징 주체 확인 [C] -->
+<g class="c-amber"><rect x="55" y="248" width="285" height="54" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="267" text-anchor="middle" dominant-baseline="central">어뷰징 주체 확인</text>
+<text class="ts" x="197" y="285" text-anchor="middle" dominant-baseline="central">판매자 / 구매자 구분 (신규 단계)</text></g>
 <line x1="340" y1="267" x2="362" y2="267" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="317" y="263" font-size="10" fill="#5F5E5A" text-anchor="end">구매자</text>
-<!-- 구매자 exit box [⚑C] -->
-<g class="c-gray">
-  <rect x="364" y="249" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="490" y="269" text-anchor="middle" dominant-baseline="central">구매자 어뷰징 별도 처리</text>
-</g>
-<!-- Decision overlay C -->
+<g class="c-gray"><rect x="364" y="249" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="504" y="269" text-anchor="middle" dominant-baseline="central">구매자 어뷰징 별도 처리</text></g>
 <rect x="361" y="246" width="286" height="46" rx="9" fill="none" stroke="#C03E0A" stroke-width="1.8" stroke-dasharray="5 3"/>
-<text class="decision-label" x="640" y="257" text-anchor="end">⚑ C</text>
-
+<rect x="590" y="238" width="20" height="17" rx="4" fill="#C03E0A"/>
+<text class="dt" x="600" y="247" text-anchor="middle" dominant-baseline="central">C</text>
 <line x1="197" y1="302" x2="197" y2="322" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="205" y="315" font-size="10" fill="#5F5E5A">판매자</text>
-
-<!-- ===== 화이트리스트 ===== -->
-<g class="c-gray">
-  <rect x="55" y="322" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="343" text-anchor="middle" dominant-baseline="central">화이트리스트 uid 해당?</text>
-</g>
+<!-- 화이트리스트 -->
+<g class="c-gray"><rect x="55" y="322" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="343" text-anchor="middle" dominant-baseline="central">화이트리스트 uid 해당?</text></g>
 <line x1="340" y1="343" x2="362" y2="343" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="339" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="323" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="490" y="343" text-anchor="middle" dominant-baseline="central">탐지기록 저장, 종료</text>
-  <text class="badge" x="632" y="343" dominant-baseline="central">④</text>
-</g>
+<g class="c-gray"><rect x="364" y="323" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="490" y="343" text-anchor="middle" dominant-baseline="central">탐지기록 저장, 종료</text>
+<text class="badge" x="632" y="343" dominant-baseline="central">④</text></g>
 <line x1="197" y1="364" x2="197" y2="384" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 제재 진행 중 ===== -->
-<g class="c-gray">
-  <rect x="55" y="384" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="405" text-anchor="middle" dominant-baseline="central">현재 제재 진행 중?</text>
-</g>
+<!-- 제재 진행 중 -->
+<g class="c-gray"><rect x="55" y="384" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="405" text-anchor="middle" dominant-baseline="central">현재 제재 진행 중?</text></g>
 <line x1="340" y1="405" x2="362" y2="405" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="401" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="385" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="490" y="405" text-anchor="middle" dominant-baseline="central">DB 기록, 어드민 미노출</text>
-  <text class="badge" x="632" y="405" dominant-baseline="central">④</text>
-</g>
+<g class="c-gray"><rect x="364" y="385" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="490" y="405" text-anchor="middle" dominant-baseline="central">DB 기록, 어드민 미노출</text>
+<text class="badge" x="632" y="405" dominant-baseline="central">④</text></g>
 <line x1="197" y1="426" x2="197" y2="446" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 동일 주문번호 ===== -->
-<g class="c-gray">
-  <rect x="55" y="446" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="467" text-anchor="middle" dominant-baseline="central">동일 주문번호 점수 존재?</text>
-</g>
+<!-- 동일 주문번호 -->
+<g class="c-gray"><rect x="55" y="446" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="467" text-anchor="middle" dominant-baseline="central">동일 주문번호 점수 존재?</text></g>
 <line x1="340" y1="467" x2="362" y2="467" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="463" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="447" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="490" y="467" text-anchor="middle" dominant-baseline="central">중복 처리, 종료</text>
-  <text class="badge" x="632" y="467" dominant-baseline="central">④</text>
-</g>
+<g class="c-gray"><rect x="364" y="447" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="490" y="467" text-anchor="middle" dominant-baseline="central">중복 처리, 종료</text>
+<text class="badge" x="632" y="467" dominant-baseline="central">④</text></g>
 <line x1="197" y1="488" x2="197" y2="508" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 24h 자동탐지 중복 [⚑D] ===== -->
-<g class="c-gray">
-  <rect x="55" y="508" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="529" text-anchor="middle" dominant-baseline="central">24h 내 자동탐지 중복?</text>
-</g>
-<!-- Decision overlay D -->
-<rect x="52" y="505" width="291" height="48" rx="9" fill="none" stroke="#C03E0A" stroke-width="1.8" stroke-dasharray="5 3"/>
-<text class="decision-label" x="337" y="516" text-anchor="end">⚑ D</text>
-
+<!-- 24h 자동탐지 중복 -->
+<g class="c-gray"><rect x="55" y="508" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="529" text-anchor="middle" dominant-baseline="central">24h 내 자동탐지 중복?</text></g>
 <line x1="340" y1="529" x2="362" y2="529" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="525" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="509" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="490" y="529" text-anchor="middle" dominant-baseline="central">DB 기록, 점수 미부여</text>
-  <text class="badge" x="632" y="529" dominant-baseline="central">④</text>
-</g>
-
-<!-- 예외구간 그린 바 -->
+<g class="c-gray"><rect x="364" y="509" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="490" y="529" text-anchor="middle" dominant-baseline="central">DB 기록, 점수 미부여</text>
+<text class="badge" x="632" y="529" dominant-baseline="central">④</text></g>
+<!-- 예외 구간 -->
 <line x1="48" y1="562" x2="48" y2="800" stroke="#1D9E75" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
 <line x1="197" y1="550" x2="197" y2="572" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="220" y="563" font-size="11" font-weight="500" fill="#0F6E56">▼ 예외 조건 확인</text>
-
-<!-- ===== 예외1 ===== -->
-<g class="c-gray">
-  <rect x="55" y="572" width="285" height="52" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="590" text-anchor="middle" dominant-baseline="central">[예외1] 배송 후 반품됨?</text>
-  <text class="ts" x="197" y="608" text-anchor="middle" dominant-baseline="central">배송 완료 이후 반품 케이스</text>
-</g>
+<g class="c-gray"><rect x="55" y="572" width="285" height="52" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="590" text-anchor="middle" dominant-baseline="central">[예외1] 배송 후 반품됨?</text>
+<text class="ts" x="197" y="608" text-anchor="middle" dominant-baseline="central">배송 완료 이후 반품 케이스</text></g>
 <line x1="340" y1="598" x2="362" y2="598" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="594" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="578" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="504" y="598" text-anchor="middle" dominant-baseline="central">예외1 적용, 종료</text>
-</g>
+<g class="c-gray"><rect x="364" y="578" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="504" y="598" text-anchor="middle" dominant-baseline="central">예외1 적용, 종료</text></g>
 <line x1="197" y1="624" x2="197" y2="644" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 예외2 ===== -->
-<g class="c-gray">
-  <rect x="55" y="644" width="285" height="52" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="662" text-anchor="middle" dominant-baseline="central">[예외2] 동일채널 재결제?</text>
-  <text class="ts" x="197" y="680" text-anchor="middle" dominant-baseline="central">패턴 감지 24h 이내 동일채널 결제 발생</text>
-</g>
+<g class="c-gray"><rect x="55" y="644" width="285" height="52" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="662" text-anchor="middle" dominant-baseline="central">[예외2] 동일채널 재결제?</text>
+<text class="ts" x="197" y="680" text-anchor="middle" dominant-baseline="central">패턴 감지 24h 이내 동일채널 결제 발생</text></g>
 <line x1="340" y1="670" x2="362" y2="670" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="666" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="650" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="504" y="670" text-anchor="middle" dominant-baseline="central">예외2 적용, 종료</text>
-</g>
+<g class="c-gray"><rect x="364" y="650" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="504" y="670" text-anchor="middle" dominant-baseline="central">예외2 적용, 종료</text></g>
 <line x1="197" y1="696" x2="197" y2="716" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 기존 예외처리 ===== -->
-<g class="c-gray">
-  <rect x="55" y="716" width="285" height="52" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="734" text-anchor="middle" dominant-baseline="central">기존 예외처리 해당?</text>
-  <text class="ts" x="197" y="752" text-anchor="middle" dominant-baseline="central">안전결제 진행 / 구매확정 후 7일</text>
-</g>
+<g class="c-gray"><rect x="55" y="716" width="285" height="52" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="734" text-anchor="middle" dominant-baseline="central">기존 예외처리 해당?</text>
+<text class="ts" x="197" y="752" text-anchor="middle" dominant-baseline="central">안전결제 진행 / 구매확정 후 7일</text></g>
 <line x1="340" y1="742" x2="362" y2="742" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="738" font-size="11" fill="#5F5E5A">Y</text>
-<g class="c-gray">
-  <rect x="364" y="722" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="504" y="742" text-anchor="middle" dominant-baseline="central">예외처리 종료</text>
-</g>
+<g class="c-gray"><rect x="364" y="722" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="504" y="742" text-anchor="middle" dominant-baseline="central">예외처리 종료</text></g>
 <line x1="197" y1="768" x2="197" y2="790" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 24h 취소·환불 [⚑E] ===== -->
-<g class="c-gray">
-  <rect x="55" y="790" width="285" height="52" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="808" text-anchor="middle" dominant-baseline="central">24h 후 배송전 취소·환불?</text>
-  <text class="ts" x="197" y="826" text-anchor="middle" dominant-baseline="central">배송 전 취소 or 환불됨</text>
-</g>
-<!-- Decision overlay E -->
-<rect x="52" y="787" width="291" height="58" rx="9" fill="none" stroke="#C03E0A" stroke-width="1.8" stroke-dasharray="5 3"/>
-<text class="decision-label" x="337" y="798" text-anchor="end">⚑ E</text>
-
+<g class="c-gray"><rect x="55" y="790" width="285" height="52" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="808" text-anchor="middle" dominant-baseline="central">24h 후 배송전 취소·환불?</text>
+<text class="ts" x="197" y="826" text-anchor="middle" dominant-baseline="central">배송 전 취소 or 환불됨</text></g>
 <line x1="340" y1="816" x2="362" y2="816" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="344" y="812" font-size="11" fill="#5F5E5A">N</text>
-<g class="c-gray">
-  <rect x="364" y="796" width="280" height="40" rx="8" stroke-width="0.5"/>
-  <text class="ts" x="504" y="816" text-anchor="middle" dominant-baseline="central">페널티 미부여, 종료</text>
-</g>
+<g class="c-gray"><rect x="364" y="796" width="280" height="40" rx="8" stroke-width="0.5"/>
+<text class="ts" x="504" y="816" text-anchor="middle" dominant-baseline="central">페널티 미부여, 종료</text></g>
 <line x1="197" y1="842" x2="197" y2="862" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <text x="205" y="855" font-size="11" fill="#5F5E5A">Y</text>
-
-<!-- ===== 페널티 -3점 부여 ===== -->
-<g class="c-teal">
-  <rect x="55" y="862" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="883" text-anchor="middle" dominant-baseline="central">페널티 -3점 부여</text>
-</g>
+<g class="c-teal"><rect x="55" y="862" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="883" text-anchor="middle" dominant-baseline="central">페널티 -3점 부여</text></g>
 <line x1="197" y1="904" x2="197" y2="924" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<!-- ===== 누적 점수 단계 확인 ===== -->
-<g class="c-teal">
-  <rect x="55" y="924" width="285" height="42" rx="8" stroke-width="0.5"/>
-  <text class="th" x="197" y="945" text-anchor="middle" dominant-baseline="central">누적 점수 단계 확인</text>
-</g>
-
-<!-- Fork to 3 outcomes -->
+<g class="c-teal"><rect x="55" y="924" width="285" height="42" rx="8" stroke-width="0.5"/>
+<text class="th" x="197" y="945" text-anchor="middle" dominant-baseline="central">누적 점수 단계 확인</text></g>
 <path d="M197 966 L197 982 L155 982 L155 994" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <path d="M197 966 L197 982 L395 982 L395 994" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
 <path d="M197 966 L197 982 L630 982 L630 994" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
-
-<g class="c-teal">
-  <rect x="60" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
-  <text class="th" x="155" y="1014" text-anchor="middle" dominant-baseline="central">주의 메시지</text>
-  <text class="ts" x="155" y="1032" text-anchor="middle" dominant-baseline="central">-1 ~ -8점</text>
-</g>
-<g class="c-teal">
-  <rect x="300" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
-  <text class="th" x="395" y="1014" text-anchor="middle" dominant-baseline="central">경고 메시지</text>
-  <text class="ts" x="395" y="1032" text-anchor="middle" dominant-baseline="central">-9 ~ -11점</text>
-</g>
-<g class="c-teal">
-  <rect x="535" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
-  <text class="th" x="630" y="1014" text-anchor="middle" dominant-baseline="central">제재 발동</text>
-  <text class="ts" x="630" y="1032" text-anchor="middle" dominant-baseline="central">-12점 이상</text>
-</g>
-
-
-<!-- ============================================================ -->
-<!-- ⚑ 미결 항목 패널 -->
-<!-- ============================================================ -->
-<line x1="20" y1="1062" x2="800" y2="1062" stroke="#D3D1C7" stroke-width="0.5"/>
-<rect x="20" y="1068" width="780" height="202" rx="8" fill="#FFF8F0" stroke="#C03E0A" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.9"/>
-
-<text x="36" y="1088" font-size="13" font-weight="700" fill="#8B2C04">⚑ 의사결정 필요 항목</text>
-<text x="36" y="1104" font-size="11" fill="#888780">개발 착수 전 확정 필요. 기준 미결 시 24h 로직 오탐 or 페널티 부여 시점 불일치 발생 가능.</text>
-
-<!-- A -->
-<rect x="36" y="1112" width="16" height="16" rx="3" fill="#C03E0A"/>
-<text x="44" y="1120" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">A</text>
-<text x="60" y="1124" font-size="12" font-weight="600" fill="#3d3d3a">  조회 타이밍</text>
-<text x="60" y="1140" font-size="11" fill="#5F5E5A">  AI flag 수신 후 즉시 조회? 배치 처리라면 지연 시간은? → detected_at 기산 전 lag 발생 시 24h 예외처리 오탐 가능</text>
-
-<!-- B -->
-<rect x="36" y="1150" width="16" height="16" rx="3" fill="#C03E0A"/>
-<text x="44" y="1158" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">B</text>
-<text x="60" y="1162" font-size="12" font-weight="600" fill="#3d3d3a">  복수 주문 처리 기준</text>
-<text x="60" y="1178" font-size="11" fill="#5F5E5A">  동일 channel_id에 활성 주문 N개 존재 시 어느 주문에 페널티 부여? (최신 주문 기준 / 전체 / 판단 대기)</text>
-
-<!-- C -->
-<rect x="36" y="1188" width="16" height="16" rx="3" fill="#C03E0A"/>
-<text x="44" y="1196" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">C</text>
-<text x="60" y="1200" font-size="12" font-weight="600" fill="#3d3d3a">  구매자 어뷰징 처리 경로</text>
-<text x="60" y="1216" font-size="11" fill="#5F5E5A">  구매자가 어뷰징 주체일 때 어느 로직으로 분기? 별도 제재 정책 스펙 미결</text>
-
-<!-- D -->
-<rect x="420" y="1112" width="16" height="16" rx="3" fill="#C03E0A"/>
-<text x="428" y="1120" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">D</text>
-<text x="444" y="1124" font-size="12" font-weight="600" fill="#3d3d3a">  24h 기산점 (중복 필터)</text>
-<text x="444" y="1140" font-size="11" fill="#5F5E5A">  24h 내 자동탐지 중복 판단 기준: AI detected_at vs 원본 메시지 timestamp 중 어느 것?</text>
-
-<!-- E -->
-<rect x="420" y="1150" width="16" height="16" rx="3" fill="#C03E0A"/>
-<text x="428" y="1158" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">E</text>
-<text x="444" y="1162" font-size="12" font-weight="600" fill="#3d3d3a">  24h 취소·환불 기산 시각</text>
-<text x="444" y="1178" font-size="11" fill="#5F5E5A">  24h 카운트 시작점: detected_at? 주문 생성 시각? 탐지 시각 기준 통일 필요. A와 연동됨.</text>
-
-
-<!-- ============================================================ -->
-<!-- ② 후순위 백로그 패널 -->
-<!-- ============================================================ -->
-<line x1="20" y1="1282" x2="800" y2="1282" stroke="#D3D1C7" stroke-width="0.5"/>
-<rect x="20" y="1288" width="780" height="52" rx="8" fill="#F5F4F0" stroke="#D3D1C7" stroke-width="0.8"/>
-<text x="36" y="1308" font-size="12" font-weight="600" fill="#888780">📌 후순위 백로그 (② 판매자 리스크 스코어)</text>
-<text x="36" y="1326" font-size="11" fill="#AAAAAA">AI 탐지 누적 횟수 기반 리스크 스코어 산출 → 검색·추천 노출 제한. 검색/추천 알고리즘팀 협업 필요. 제재 미달 어뷰저 커버 가능. 중기 과제.</text>
-
-
-<!-- ============================================================ -->
-<!-- ④ 키워드 파이프라인 -->
-<!-- ============================================================ -->
-<line x1="20" y1="1352" x2="800" y2="1352" stroke="#D3D1C7" stroke-width="0.5"/>
-<text x="30" y="1370" font-size="14" font-weight="700" fill="#3d3d3a">④ 금지어 자동 갱신 파이프라인</text>
-<text x="30" y="1386" font-size="11" fill="#888780">트리거: 모든 탐지 이벤트 (페널티 여부 무관) · reason 텍스트 자동 수집</text>
-
-<!-- removed pipeline boxes since viewbox is getting very tall - summarize inline -->
+<g class="c-teal"><rect x="60" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
+<text class="th" x="155" y="1014" text-anchor="middle" dominant-baseline="central">주의 메시지</text>
+<text class="ts" x="155" y="1032" text-anchor="middle" dominant-baseline="central">-1 ~ -8점</text></g>
+<g class="c-teal"><rect x="300" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
+<text class="th" x="395" y="1014" text-anchor="middle" dominant-baseline="central">경고 메시지</text>
+<text class="ts" x="395" y="1032" text-anchor="middle" dominant-baseline="central">-9 ~ -11점</text></g>
+<g class="c-teal"><rect x="535" y="994" width="190" height="54" rx="8" stroke-width="0.5"/>
+<text class="th" x="630" y="1014" text-anchor="middle" dominant-baseline="central">제재 발동</text>
+<text class="ts" x="630" y="1032" text-anchor="middle" dominant-baseline="central">-12점 이상</text></g>
 </svg>
+</div>
 
-<svg viewBox="0 0 820 80" style="margin-top: -4px;">
-<g>
-  <rect x="30" y="10" width="205" height="50" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
-  <text x="132" y="30" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="600" fill="#633806">reason 수집</text>
-  <text x="132" y="48" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">탐지 즉시 자동 적재</text>
-</g>
-<line x1="235" y1="35" x2="260" y2="35" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
-<defs>
-<marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-  <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</marker>
-</defs>
-<g>
-  <rect x="262" y="10" width="220" height="50" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
-  <text x="372" y="30" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="600" fill="#633806">패턴 클러스터링</text>
-  <text x="372" y="48" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">주 1회 배치 실행</text>
-</g>
-<line x1="482" y1="35" x2="507" y2="35" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
-<g>
-  <rect x="509" y="10" width="278" height="50" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
-  <text x="648" y="30" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="600" fill="#633806">키워드 제안 리포트</text>
-  <text x="648" y="48" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">운영팀 슬랙 자동 발송</text>
-</g>
-</svg>
+<!-- 의사결정 패널 -->
+<div class="panel">
+  <p class="panel-title" style="color:#C03E0A;">⚑ 의사결정 필요 항목 (3개)</p>
+  <p class="panel-sub">개발 착수 전 확정 필요. 미결 시 조회 타이밍 오탐 또는 처리 경로 누락 발생 가능.</p>
+  <div class="decision-grid">
+    <div class="di">
+      <div class="di-badge">A</div>
+      <div>
+        <p class="di-title">활성 주문번호 조회 타이밍</p>
+        <p class="di-desc">AI flag 수신 후 <strong>즉시 실시간 조회</strong>할지, <strong>배치(N분 후)</strong>로 처리할지 결정 필요.<br>
+        배치 방식이면 detected_at과 실제 조회 시점 사이에 lag이 생기고, 이후 24h 취소·환불 조건 판단 타이밍도 같이 밀릴 수 있음.<br>
+        <strong>실시간 조회 기본 + API 타임아웃 등 예외 케이스 처리 방식</strong>을 별도 정의하는 방향 권장.</p>
+      </div>
+    </div>
+    <div class="di">
+      <div class="di-badge">B</div>
+      <div>
+        <p class="di-title">복수 주문 처리 기준</p>
+        <p class="di-desc">동일 channel_id에 활성 주문이 N개 존재할 때 어느 주문에 페널티를 부여할지 기준 미결.<br>
+        후보: ① <strong>최신 주문 1건 기준</strong> (단순) ② <strong>전체 주문에 각각 부여</strong> (중복 과다 가능) ③ <strong>운영 판단 대기 큐 이관</strong> (수동 코스트 발생)<br>
+        <strong>① 최신 주문 기준 + 나머지 DB 기록 보존</strong>이 현실적.</p>
+      </div>
+    </div>
+    <div class="di">
+      <div class="di-badge">C</div>
+      <div>
+        <p class="di-title">구매자 어뷰징 처리 경로</p>
+        <p class="di-desc">reason 분석 결과 <strong>구매자가 외부거래를 유도한 케이스</strong>일 때 분기할 로직 미설계. 구매자 제재 정책 스펙 없음.<br>
+        우선 <strong>DB 기록 + 어드민 플래그 처리로 쌓아두고, 구매자 정책 정의 후 소급 적용</strong>하는 단계적 접근 권장.<br>
+        Jane과 정책 방향 얼라인 후 설계 착수 필요.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 후순위 백로그 -->
+<div class="backlog-panel">
+  <p class="backlog-title">📌 후순위 백로그 — ② 판매자 리스크 스코어 → 검색·추천 노출 제한</p>
+  <p class="backlog-sub">중기 과제 · 검색/추천 알고리즘팀 협업 필요 · 제재 미달 어뷰저 커버 가능</p>
+  <div class="backlog-logic">
+    <div class="bl-step">
+      <div class="bl-num">1</div>
+      <div>
+        <p class="bl-title">스코어 산출 기준 정의</p>
+        <p class="bl-desc"><span class="bl-tag tag-need">정의 필요</span>
+        페널티 점수(-3점 등)와 <strong>별개로</strong> AI 탐지 횟수 기반 리스크 스코어를 판매자 단위로 누적.<br>
+        예시 가중치: <code>탐지 1회 = +1점</code> / <code>24h 내 중복 탐지 = +0.5점</code> / <code>최근 30일 롤링 집계</code><br>
+        일정 기간(예: 90일) 탐지 없으면 자동 감소하는 decay 로직도 함께 설계 권장.</p>
+      </div>
+    </div>
+    <div class="bl-step">
+      <div class="bl-num">2</div>
+      <div>
+        <p class="bl-title">노출 제한 단계 설계</p>
+        <p class="bl-desc"><span class="bl-tag tag-need">임계값 결정 필요</span>
+        리스크 스코어 구간별로 검색·추천 노출을 단계적 감소.<br>
+        예시: <code>스코어 3~5 → 노출 30% 감소</code> / <code>6~9 → 노출 60% 감소</code> / <code>10이상 → 노출 완전 배제 + 어드민 알림</code><br>
+        제재(-12점) 미달 <strong>회색지대 어뷰저를 커버</strong>하는 것이 핵심 목적.</p>
+      </div>
+    </div>
+    <div class="bl-step">
+      <div class="bl-num">3</div>
+      <div>
+        <p class="bl-title">검색/추천 알고리즘팀 인터페이스</p>
+        <p class="bl-desc"><span class="bl-tag tag-later">협업 필요</span>
+        Trust/Policy 측에서 <strong>판매자 uid별 리스크 스코어를 API 또는 DB 테이블로 제공</strong>, 검색/추천팀이 랭킹 로직에 반영하는 구조.<br>
+        Trust는 스코어 산출·관리만 담당, 노출 로직은 알고리즘팀 소유로 역할 분리 가능.</p>
+      </div>
+    </div>
+    <div class="bl-step">
+      <div class="bl-num">4</div>
+      <div>
+        <p class="bl-title">판매자 이의제기 처리</p>
+        <p class="bl-desc"><span class="bl-tag tag-later">정책 설계 필요</span>
+        노출 제한을 사용자에게 <strong>비노출(비고지)</strong>로 운영할지, <strong>어드민 내 이력 열람 가능 형태</strong>로 운영할지 결정 필요.<br>
+        AI 오탐 케이스 대비해 reason 텍스트를 어드민에 저장하는 구조와 연계. 기존 페널티 이의제기 프로세스와 동일 채널 통합 운영 권장.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 파이프라인 -->
+<div class="pipeline-strip">
+  <p class="pipeline-strip-title" style="color:#633806;">④ 금지어 자동 갱신 파이프라인</p>
+  <div class="pipeline-boxes">
+    <div class="pb"><p class="pb-title">reason 수집</p><p class="pb-sub">탐지 즉시 자동 적재</p></div>
+    <div class="pb-arrow">→</div>
+    <div class="pb"><p class="pb-title">패턴 클러스터링</p><p class="pb-sub">주 1회 배치 실행</p></div>
+    <div class="pb-arrow">→</div>
+    <div class="pb"><p class="pb-title">키워드 제안 리포트</p><p class="pb-sub">운영팀 슬랙 자동 발송</p></div>
+  </div>
+</div>
+
+</div>
 </body>
 </html>
